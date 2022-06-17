@@ -1,0 +1,10 @@
+﻿{
+    "database": {
+        "host": "localhost",
+        "port": 3306,
+        "user": "dbapi",
+        "password": "SSSP3C14l",
+        "database": "inventar_produse"
+    },
+    "secret": "siudbvcwkfnvwkbgwkb*TUycd%5yNKUmBKbjCtVBYngmOub890WJCWEICPqofAqwerthBVCXDfghnMKIUYgcdTHnMJhgfjnJi876TfsERTY87655^%$#4%TGFDrtyU&6RFgHY^%RFGHu&^%^&uHgFT7*IjHgFGHU*7^^&*iJHGFd%^UI(*&^TGFDR^&8IjBGfFGHJI*&^tFHUGFD%^&uIO(OKJHgt^&*iJHGT%$eDFGYTR%^7*UjI(*&^TgBNJI*&tGFR^&uJHGY&*iJGT&*IKNGT&*IKMNBBNJKI(*&yGH567uhgfdE$%^&Ui87GFR567*()98&TGhJKO(*&^E$%^&*IjHGFDFGHJMeomf3PMeIFMPFMlfmCIPWEFMefpasdfi3qfamflcIEFMDAKJFIPEFMLDIAJCEQFMCASJFPQJFPonFoGNFOwnfefcmoimf#fnonefeifTfkbgo3gn28qqfknj2ofownf23of2o3ifn2ofn2i32o3nro21n3od2n3fo2n3fo2i3nro23ndon32d2njqnfkLNOLNDF2IFNI23FK"
+}
