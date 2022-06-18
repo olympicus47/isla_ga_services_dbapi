@@ -10,8 +10,12 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // api routes
-app.use('/locatii', require('./users/locatiiController'));
-app.use('/produse', require('./users/produseController'));
+app.use('/locatii', require('./controlere/locatiiController'));
+console.log('loaded locatii routes');
+app.use('/produse', require('./controlere/produseController'));
+console.log('loaded produse routes');
+app.use('/inventar', require('./controlere/inventarController'));
+console.log('loaded inventar routes');
 
 // global error handler
 app.use(errorHandler);

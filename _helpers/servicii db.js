@@ -1,12 +1,12 @@
-﻿const db = require('_helpers/db');
+﻿const db = require('./db');
 
 module.exports = {
-    authenticate,
+    // authenticate,
     getAllFrom,
     getByColValFrom,
-    create,
-    update,
-    delete: _delete
+    // create,
+    // update,
+    // delete: _delete
 };
 
 //mostly async await functions which operate on the database
