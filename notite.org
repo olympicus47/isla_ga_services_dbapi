@@ -1,0 +1,52 @@
+* VIEW-uri si dependintele lor pe API-
+** INVENTAR
+** Butoane cu textul = numele locatiei
+*** ruta este /locatii/ si primeste <- {
+    locatii : [...{ id_locatie, numele locatiei }],
+}
+
+** Fiecare view pe locatie este un SELECT WHERE id_produs din buton = id_produs din inventar_produs probabil functia getALL() din sequelize
+*** ruta este /inventar_produse/ si primeste <- { nume_produs, ean, pret_produs, cantitate_produs } toate puse intr-un singur div
+
+** ADAUGA
+** Un button cu textul Locatie Noua
+*** ruta este /locatii/adauga/ si trimite -> { nume_locatie, adresa_locatie}
+    contine un text field cu titlul nume locatie, un text area cu titlul aresa locatie si un button cu ADAUGA cu metoda post
+    toate puse intr-un singur div
+** Un button cu textul Produs Nou
+*** ruta este /produse/adauga/ si trimite -> { nume_produs, ean, pret_produs, }
+    contine un text field cu titlul nume produs, un text field cu titlul ean produs si un text field cu titlul pret produs
+** FLUX MARFA
+** Un button cu textul Receptie marfa
+** Butoane cu textul = numele locatiei -- acelasi view ca la alegerea inventarului pe locatie
+*** ruta este /inventar_produse/actualizeaza/ si trimite -> { id_locatie, nume_produs, ean, cantitate_produs, metoda : "+"}
+    contine o lisata de divuri fiecare avand doua text fielduri cu titlurile ean si cantitate produs
+    pronbail necesita un SELECT WHERE compus  si un ALTER TABLE SET
+** Buton cu textul Transfer marfa
+*** ruta este /inventar_produse/actualizeaza/ si trimite -> {
+*** produse_trimise: [ ...{ id_locatie: { DIN, CATRE }, nume_produs, ean, cantitate_produs, metoda: "*/"} ]
+*** }
+    am un prim div cu doua select boxuri care isi primesc optiunile cu cu runta /locatii/ si titlurile: Nume Locatie DIN; Nume Locatie CATRE
+    sub am o lista de divuri fiecare cu {nume_produs, ean, cantitate_produs}
+    sub ultimul produs din lista am un buton de adauga produs
+** VINDE
+** butoane locatii
+*** ruta este /inventar_produse/actualizeaza/ si trimite -> {
+    produse_vandute : [ ...{id_locatie, nume_produs, ean, cantitate_produs, metoda: "-"}]
+}
+
+* metode necesare pentru rutele UR din CRUD:
+** Read:
+*** /produse/:ean/ <-  getByEAN(EAN) = > SELECT * FROM inventar_produse WHERE ean_produs din formular = ean_produs din tabel
+*** /produse/:id_produs/ <-  getByIdProdus(idProdus) = > SELECT * FROM inventar_produse WHERE id_produs = id_produs
+*** /produse/:nume_produs/ <-  getByNumeProdus(numeProdus) = > SELECT * FROM inventar_produse WHERE nume_produs = nume_produs
+*** /locatii/:id_locatie/ <-  getByIdLocatie(idLocatie) = > SELECT * FROM inventar_produse WHERE id_locatie = id_locatie
+*** /locatii/:nume_locatie/ <-  getByNumeLocatie(EAN, numeLocatie) = > SELECT * FROM inventar_produse WHERE nume_locatie = nume_locatie
+*** /inventar_produse/:ean&:id_locatie/ <-  getByEAN_IdLocatie(EAN, id_locatie) = > SELECT * FROM inventar_produse WHERE ean_produs din formular = ean_produs din tabel AND id_locatie = id_locatie
+*** /inventar_produse/:nume_produs&:id_locatie <- getByNumeProdus_IdLocatie(numeLocatie,idLocatie) = > SELECT * FROM inventar_produse WHERE nume_produs = nume_produs AND id_locatie = id_locatie
+** Update:
+*** /produse/actualizeaza/:ean <- updateByEAN(ean, {nume_produs, pret_produs}) = > ALTER TABLE produse WHERE ean_produs = ean_produs SET nume_produs = nume_produs, pret_produs = pret_produs
+*** /produse/actualizeaza/:id_produs <- updateProdusByID(id_produs, {nume_produs, ean_produs, pret_produs}) = > ALTER TABLE produse WHERE id_produs = id_produs SET nume_produs = nume_produs, ean_produs = ean_produs, pret_produs = pret_produs
+*** /produse/actualizeaza/:nume_produs <- updateProdusByID(nume_produs, { ean_produs, pret_produs}) = > ALTER TABLE produse WHERE nume_produs = nume_produs SET ean_produs = ean_produs, pret_produs = pret_produs
+*** /locatii/actualizeaza/:id_locatie <- updateLocatieByID(id_locatie, {nume-locatie, adresa_locatie}) = > ALTER TABLE locatii WHERE id_locatie = id_locatie SET nume_locatie = nume_locatie, adresa_locatie = adresa_locatie
+*** locatii/actualizeaza/:nume_locatie <- updateLocatieByNume(nume_locatie)

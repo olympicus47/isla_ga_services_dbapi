@@ -29,6 +29,6 @@ async function initialize() {
                                           otherkey: 'id_produs'});
 
     // sync all models with database
-    await sequelize.sync();
+    await sequelize.sync({force: false});
     console.log('initial database sync done');
 }
