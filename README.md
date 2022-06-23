@@ -1,5 +1,12 @@
-# node-mysql-registration-login-api
+# dbapi
 
-Node.js + MySQL API for User Management, Authentication and Registration
+## api pentru aplicatie de inventar pt Isla G&amp;A Services
 
-For documentation and instructions see https://jasonwatmore.com/post/2020/08/18/nodejs-mysql-simple-api-for-authentication-registration-and-user-management
+### Boiler Plate with Settings:
+```
+Database ORM: Sequelize
+CORS Enabled: true
+Customize Response Appender Enable: false
+Socket.io Enable: false
+FrontEnd Framework: None
+```
