@@ -12,7 +12,7 @@ let db = {};
 
 createDbIfNotExists(config);
 
-// console.log(config);
+console.log(config);
 
 let sequelize;
 if (config.use_env_variable) {
@@ -35,12 +35,11 @@ fs.readdirSync(__dirname)
         // console.log(`${__dirname}       ${file}`);
         const normalizedName = getNormalizedNameOfModel(model.name);
         db[normalizedName] = model;
-        // console.log(`       ${model}        `);
+        console.log(`       ${model}        `);
     });
 
     Object.keys(db).forEach(modelName => {
         if (db[modelName].associate) {
-            // sequelize.models.modelName = modelName();
             db[modelName].associate(db);
     }
 });
@@ -52,8 +51,6 @@ db = {
 };
 
 db.sequelize.sync({force: false});
-
-console.log(db);
 
 module.exports = db;
 

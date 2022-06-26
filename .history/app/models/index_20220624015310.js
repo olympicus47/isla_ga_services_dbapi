@@ -53,8 +53,6 @@ db = {
 
 db.sequelize.sync({force: false});
 
-console.log(db);
-
 module.exports = db;
 
 function createDbIfNotExists(config){

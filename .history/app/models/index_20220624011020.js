@@ -5,14 +5,14 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV;
-const config = require(`../config/database`)[env];
+const config = require(`${global.paths.config}/database`)[env];
 const mysql = require('mysql2');
 const { startCase } = require('lodash');
 let db = {};
 
 createDbIfNotExists(config);
 
-// console.log(config);
+console.log(config);
 
 let sequelize;
 if (config.use_env_variable) {
@@ -35,12 +35,11 @@ fs.readdirSync(__dirname)
         // console.log(`${__dirname}       ${file}`);
         const normalizedName = getNormalizedNameOfModel(model.name);
         db[normalizedName] = model;
-        // console.log(`       ${model}        `);
+        console.log(`       ${model}        `);
     });
 
     Object.keys(db).forEach(modelName => {
         if (db[modelName].associate) {
-            // sequelize.models.modelName = modelName();
             db[modelName].associate(db);
     }
 });
@@ -53,12 +52,10 @@ db = {
 
 db.sequelize.sync({force: false});
 
-console.log(db);
-
 module.exports = db;
 
 function createDbIfNotExists(config){
-    const {host, user, password, port, database } = config;
+    const {user, password, port, database } = config;
     const connection = mysql.createConnection({host, port, user, password});
     connection.query(`CREATE DATABASE IF NOT EXISTS ${database};`);
 }

@@ -8,16 +8,13 @@ module.exports = (sequelize, DataTypes) => {
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
-          *
-	 *realtie definita pe tabelul de joctiune deoarece sequelize nu formeaza realtii decat 
-	 *daca sunt definite doar de-o sinngura parte a relatiei
-	 */
+     */
     static associate(models) {
-        //Produse.belongsToMany(models.Locatii,
-        //{through: 'inventar_produse',
-        //foreignKey: 'id_produs',
-        //otherKey: 'id_locatie'
-        //})
+      Produse.belongsToMany(models.locatii,
+        {through: 'inventar_produse',
+        foreignKey: 'id_produs',
+        otherKey: 'id_locatie'
+        })
       }
     }
 
@@ -53,6 +50,8 @@ module.exports = (sequelize, DataTypes) => {
       {fields: ['pret_produs','nume_produs' ,'ean_produs']},
       {fields: ['nume_produs', 'pret_produs' ,'ean_produs']},
   ]
-  })
-  return Produse;
+  }, {sequelize})
+
+  sequelize.models.modelName
+  return produse;
 };

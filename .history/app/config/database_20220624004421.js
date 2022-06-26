@@ -4,7 +4,7 @@ module.exports = {
     "development": {
         "host": "localhost",
         "user": "dbapi",
-        "password": process.env.DB_PASS,
+        "password": "SSSP3C14l",
         "database": "inventar_produse_dev",
         "port": process.env.DB_PORT,
         "dialect": "mysql",
@@ -15,7 +15,7 @@ module.exports = {
     "test": {
         "host": "localhost",
         "user": "dbapi",
-        "password": process.env.DB_PASS,
+        "password": "SSSP3C14l",
         "database": "inventar_produse_test",
         "port": process.env.DB_PORT,
         "dialect": "mysql",
@@ -26,7 +26,7 @@ module.exports = {
     "production": {
         "host": "localhost",
         "user": "dbapi",
-        "password": process.env.DB_PASS,
+        "password": "SSSP3C14l",
         "database": "inventar_produse",
         "port": process.env.DB_PORT,
         "dialect": "mysql",

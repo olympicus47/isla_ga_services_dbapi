@@ -2,10 +2,10 @@ const log = require('../lib/logger').child({ type: "database" });
 
 module.exports = {
     "development": {
-        "host": "localhost",
         "user": "dbapi",
-        "password": process.env.DB_PASS,
+        "password": "SSSP3C14l",
         "database": "inventar_produse_dev",
+        "host": "localhost",
         "port": process.env.DB_PORT,
         "dialect": "mysql",
         "logging": function (message) {
@@ -13,10 +13,10 @@ module.exports = {
         }
     },
     "test": {
-        "host": "localhost",
         "user": "dbapi",
-        "password": process.env.DB_PASS,
+        "password": "SSSP3C14l",
         "database": "inventar_produse_test",
+        "host": "localhost",
         "port": process.env.DB_PORT,
         "dialect": "mysql",
         "logging": function (message) {
@@ -24,10 +24,10 @@ module.exports = {
         }
     },
     "production": {
-        "host": "localhost",
         "user": "dbapi",
-        "password": process.env.DB_PASS,
+        "password": "SSSP3C14l",
         "database": "inventar_produse",
+        "host": "localhost",
         "port": process.env.DB_PORT,
         "dialect": "mysql",
         "logging": function (message) {
