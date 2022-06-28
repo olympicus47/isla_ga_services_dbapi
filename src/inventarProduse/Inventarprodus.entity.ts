@@ -4,8 +4,8 @@ import { TintaProfit } from './tintaProfitCaFactorMultiplicativ';
 import { NativeBigIntType } from 'src/lib/NativeBigInt';
 
 // indexuri compuse cu toate permutarile pentru maximizarea vitezei de cautare
-// @Index({ properties: ['eanProdus', 'numeProdus'] })
-// @Index({ properties: ['numeProdus', 'eanProdus'] })
+@Index({ properties: ['idProdus', 'idLocatie'] })
+@Index({ properties: ['idLocatie', 'idProdus'] })
 @Entity()
 export class InventarProduse {
   @PrimaryKey({ unsigned: true, autoincrement: true, type: NativeBigIntType })
