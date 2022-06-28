@@ -39,4 +39,6 @@ app.on('start', function () {
     global.log.info('Environment: %s', app.kraken.get('env:env'));
 });
 
+// console.log(global)
+
 module.exports = app;

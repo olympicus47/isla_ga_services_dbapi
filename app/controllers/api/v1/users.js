@@ -1,40 +1,34 @@
-'use strict';
+"use strict";
 
-const {
-    asyncMiddleware,
-    commonFunctions,
-} = global;
+const { asyncMiddleware, commonFunctions } = global;
 
 const { Users } = global.db;
 
 module.exports = function (router) {
+  router.get(
+    "/",
+    asyncMiddleware(async (req, res) => {
+      let user = await Users.findOne({
+        where: { email: "emag@insula-animalelor.ro" },
+      });
 
-    router.get('/', asyncMiddleware(async (req, res) => {
-    
+      if (!user) {
+        user = await Users.create({
+          email: "emag@insula-animalelor.ro",
+          nume: "Popa",
+          prenume: "Andrei",
+        });
+      }
 
-            let user = await Users.findOne({ where: { email: 'sajjad@gmail.com' } });
+      const token = commonFunctions.createToken({
+        id: user.id,
+        email: user.email,
+      });
 
-            if (!user) {
-                user = await Users.create({
-                    email: 'sajjad@gmail.com',
-                    firstName: 'Sajjad',
-                    lastName: 'Ali'
-                });
-            }
-
-            const token = commonFunctions.createToken({
-                id: user.id,
-                email: user.email,
-            });
-
-            
-                res.status(200).json({
-                    user: user,
-                    token: token,
-                });
-            
-
-    
-  }));
-
+      res.status(200).json({
+        user: user,
+        token: token,
+      });
+    })
+  );
 };

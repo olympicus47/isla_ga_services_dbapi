@@ -2,33 +2,33 @@ const log = require('../lib/logger').child({ type: "database" });
 
 module.exports = {
     "development": {
+        "username": "dbapi",
+        "password": "SSSP3C14l",
         "host": "localhost",
-        "user": "dbapi",
-        "password": process.env.DB_PASS,
+        "port": 3306,
         "database": "inventar_produse_dev",
-        "port": process.env.DB_PORT,
         "dialect": "mysql",
         "logging": function (message) {
             log.debug(message);
         }
     },
     "test": {
-        "host": "localhost",
-        "user": "dbapi",
+        "username": "dbapi",
         "password": process.env.DB_PASS,
-        "database": "inventar_produse_test",
+        "host": "localhost",
         "port": process.env.DB_PORT,
+        "database": "inventar_produse_test",
         "dialect": "mysql",
         "logging": function (message) {
             log.debug(message);
         }
     },
     "production": {
-        "host": "localhost",
-        "user": "dbapi",
+        "username": "dbapi",
         "password": process.env.DB_PASS,
-        "database": "inventar_produse",
+        "host": "localhost",
         "port": process.env.DB_PORT,
+        "database": "inventar_produse",
         "dialect": "mysql",
         "logging": function (message) {
             log.debug(message);
