@@ -7,12 +7,14 @@ import {
   OnModuleInit,
 } from '@nestjs/common';
 import { MikroORM } from '@mikro-orm/core';
+import { MySqlDriver } from '@mikro-orm/mysql';
+
 import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
 import 'dotenv/config';
 
 @Module({
   controllers: [AppController],
-  imports: [MikroOrmModule.forRoot()],
+  imports: [MikroOrmModule.forRoot({ driver: MySqlDriver })],
   providers: [AppService],
 })
 export class AppModule implements NestModule, OnModuleInit {
@@ -20,6 +22,7 @@ export class AppModule implements NestModule, OnModuleInit {
 
   async onModuleInit(): Promise<void> {
     await this.orm.getMigrator().up();
+    await this.orm.em.flush();
   }
 
   // for some reason the auth middlewares in profile and article modules are fired before the request context one,

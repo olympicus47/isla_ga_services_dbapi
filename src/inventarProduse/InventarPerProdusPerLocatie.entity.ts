@@ -1,8 +1,8 @@
 import { Entity, Property, Index, Enum, ManyToOne } from '@mikro-orm/core';
 import { TVAProdus } from './TVAProduse';
 import { TintaProfit } from './tintaProfitCaFactorMultiplicativ';
-import { Produs } from 'src/produse/Produs.entity';
-import { Locatie } from 'src/locatii/Locatie.entity';
+import { Produs } from '../produse/Produs.entity';
+import { Locatie } from '../locatii/Locatie.entity';
 
 // indexuri compuse cu toate permutarile pentru maximizarea vitezei de cautare
 @Index({ properties: ['idProdus', 'idLocatie'] })
