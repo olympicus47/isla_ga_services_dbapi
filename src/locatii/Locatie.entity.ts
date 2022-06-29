@@ -1,4 +1,4 @@
-import { NativeBigIntType } from 'src/lib/NativeBigInt';
+// import { NativeBigIntType } from 'src/lib/NativeBigInt';
 import { Entity, PrimaryKey, Property, Index } from '@mikro-orm/core';
 
 // indexuri compuse cu toate permutarile pentru maximizarea vitezei de cautare
@@ -6,8 +6,11 @@ import { Entity, PrimaryKey, Property, Index } from '@mikro-orm/core';
 @Index({ properties: ['numeLocatie', 'adresaLocatie'] })
 @Entity()
 export class Locatie {
-  @PrimaryKey({ unsigned: true, autoincrement: true, type: NativeBigIntType })
-  idLocatie!: bigint;
+  @PrimaryKey({
+    unsigned: true,
+    autoincrement: true /*type: NativeBigIntType */,
+  })
+  idLocatie!: number;
 
   @Property({ unique: true, nullable: false })
   numeLocatie: string;
