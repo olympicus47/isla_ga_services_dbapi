@@ -4,14 +4,11 @@ import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { LoadStrategy } from '@mikro-orm/core';
 import 'dotenv/config';
 
+console.log(process.env);
+
 const options: Options = {
   type: 'mysql',
-  allowGlobalContext: true,
-  dbName: process.env.DB_NAME,
-  host: process.env.DB_HOST,
-  port: parseInt(process.env.DB_PORT),
-  user: process.env.DB_USER,
-  password: process.env.DB_PASS,
+  clientUrl: `${process.env.DB_TYPE}://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`,
   entities: ['dist/**/*.entity.js'],
   entitiesTs: ['src/**/*.entity.ts'],
   debug: true,

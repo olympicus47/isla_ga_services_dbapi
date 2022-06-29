@@ -1,5 +1,5 @@
 import { Entity, Property, Index, Enum, ManyToOne } from '@mikro-orm/core';
-import { TVAProdus } from './TVAProduse';
+import { TVAProdus, TVA } from './TVAProduse';
 import { TintaProfit } from './tintaProfitCaFactorMultiplicativ';
 import { Produs } from '../produse/Produs.entity';
 import { Locatie } from '../locatii/Locatie.entity';
@@ -31,32 +31,28 @@ export class InventarPerProdusPerLocatie {
   @ManyToOne({
     primary: true,
     unsigned: true,
-    autoincrement: true,
   })
   idProdus!: Produs;
   @ManyToOne({
     primary: true,
     unsigned: true,
-    autoincrement: true,
   })
   idLocatie!: Locatie;
 
   @Property({ unique: true, nullable: false })
   numeComercialProdus: string;
 
-  @Property({ unsigned: true, nullable: false })
+  @Property({ columnType: 'float', nullable: false })
   pretAchiziteProdus!: number;
 
-  @Property({ unsigned: true, nullable: false })
+  @Property({ columnType: 'float', nullable: false })
   @Enum(() => TVAProdus)
-  factorTVAProdus!: TVAProdus;
+  factorTVAProdus!: TVA[string];
 
-  @Property({ unsigned: true, nullable: false })
-  pretProdusCalculat: number = Math.ceil(
-    this.pretAchiziteProdus * this.factorTVAProdus * TintaProfit,
-  );
+  @Property({ columnType: 'float', nullable: false })
+  pretProdusCalculat: number;
 
-  @Property({ unsigned: true, nullable: false })
+  @Property({ columnType: 'float', nullable: false })
   pretVanzare!: number;
 
   @Property({ unsigned: true, nullable: false })
@@ -77,7 +73,7 @@ export class InventarPerProdusPerLocatie {
   constructor(
     numeComercialProdus: string,
     pretAchiziteProdus: number,
-    factorTVAProdus: number,
+    factorTVAProdus: TVA[string],
     pretVanzare: number,
     stocMinimProdus: number,
     stocProdus: number,
@@ -85,10 +81,9 @@ export class InventarPerProdusPerLocatie {
     this.numeComercialProdus = numeComercialProdus;
     this.pretAchiziteProdus = pretAchiziteProdus;
     this.factorTVAProdus = factorTVAProdus;
-    this.pretProdusCalculat = (() =>
-      Math.ceil(
-        this.pretAchiziteProdus * this.factorTVAProdus * TintaProfit,
-      ))();
+    this.pretProdusCalculat = Math.ceil(
+      this.pretAchiziteProdus * this.factorTVAProdus * TintaProfit,
+    );
     this.pretVanzare = pretVanzare;
     this.stocMinimProdus = stocMinimProdus;
     this.stocProdus = stocProdus;
