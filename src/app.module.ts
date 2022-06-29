@@ -10,11 +10,15 @@ import { MikroORM } from '@mikro-orm/core';
 import { MySqlDriver } from '@mikro-orm/mysql';
 
 import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
+import { UsersModule } from './users/users.module';
 import options from './mikro-orm.config';
 
 @Module({
   controllers: [AppController],
-  imports: [MikroOrmModule.forRoot({ driver: MySqlDriver, ...options })],
+  imports: [
+    MikroOrmModule.forRoot({ driver: MySqlDriver, ...options }),
+    UsersModule,
+  ],
   providers: [AppService],
 })
 export class AppModule implements NestModule, OnModuleInit {
