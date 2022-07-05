@@ -8,10 +8,10 @@ import {
 } from '@nestjs/common';
 import { MikroORM } from '@mikro-orm/core';
 import { MySqlDriver } from '@mikro-orm/mysql';
-
 import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
-import { UsersModule } from './users/users.module';
 import options from './mikro-orm.config';
+
+import { UsersModule } from './users/users.module';
 
 @Module({
   controllers: [AppController],
