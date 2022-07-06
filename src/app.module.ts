@@ -12,12 +12,14 @@ import { MikroOrmMiddleware, MikroOrmModule } from '@mikro-orm/nestjs';
 import options from './mikro-orm.config';
 
 import { UsersModule } from './users/users.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   controllers: [AppController],
   imports: [
     MikroOrmModule.forRoot({ driver: MySqlDriver, ...options }),
     UsersModule,
+    AuthModule,
   ],
   providers: [AppService],
 })

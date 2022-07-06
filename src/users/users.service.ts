@@ -1,48 +1,49 @@
+import {
+  ForbiddenException,
+  Injectable,
+  Inject,
+  forwardRef,
+} from '@nestjs/common';
 import { EntityRepository } from '@mikro-orm/core';
 import { InjectRepository } from '@mikro-orm/nestjs';
-import { ForbiddenException, Injectable } from '@nestjs/common';
 import { UserDto } from './dto/index';
 import { User } from './user.entity';
-import * as argon from 'argon2';
+
+import { AuthService } from './../auth/auth.service';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: EntityRepository<User>,
+    @Inject(forwardRef(() => AuthService))
+    private readonly authService: AuthService,
   ) {}
   async register(userDto: UserDto) {
-    const { email, password } = userDto;
-    const hashed_password = await argon.hash(password);
-    const user = new User(email, hashed_password);
+    const hashed_password = await this.authService.pwHash(userDto.password);
+    const user = new User(userDto.email, hashed_password);
     await this.userRepository.persistAndFlush(user);
-    return { email };
+    return { email: userDto.email };
   }
 
   async login(userDto: UserDto) {
-    const { email, password } = userDto;
-    const dbUser = await this.findOne(email);
-    let pwMatch = false;
-    if (dbUser) {
-      pwMatch = await argon.verify(dbUser.hashed_password, password);
-    }
+    const pwMatch = this.authService.verify(userDto);
+
     if (pwMatch) {
-      return { email: dbUser.email };
+      return { email: userDto.email };
     }
     throw new ForbiddenException('Credentials are incorrect.');
   }
 
   async findAll() {
     const users = await this.userRepository.findAll();
-
     const mappedUsers = users.map((user) => ({ email: user.email }));
-
     return mappedUsers;
   }
 
-  async findOne(email: string) {
+  async findOne(userDto: UserDto) {
     try {
-      return this.userRepository.findOne({ email });
+      return await this.userRepository.findOne({ email: userDto.email });
     } catch (err) {
       throw new ForbiddenException('Credentials are incorrect.' + err);
     }
