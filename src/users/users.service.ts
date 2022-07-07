@@ -1,5 +1,5 @@
 import {
-  ForbiddenException,
+  UnauthorizedException,
   Injectable,
   Inject,
   forwardRef,
@@ -19,20 +19,22 @@ export class UsersService {
     @Inject(forwardRef(() => AuthService))
     private readonly authService: AuthService,
   ) {}
-  async register(userDto: UserDto) {
-    const hashed_password = await this.authService.pwHash(userDto.password);
-    const user = new User(userDto.email, hashed_password);
+  async register(dto: UserDto) {
+    if (await this.findOne(dto)) {
+      throw new UnauthorizedException('Credentials are incorrect.');
+    }
+    const user = await this.makeUserFromDto(dto);
     await this.userRepository.persistAndFlush(user);
-    return { email: userDto.email };
+    delete user.hashed_password;
+    return user;
   }
 
   async login(userDto: UserDto) {
-    const pwMatch = this.authService.verify(userDto);
-
-    if (pwMatch) {
-      return { email: userDto.email };
+    const usrMatch = await this.authService.verify(userDto);
+    if (usrMatch) {
+      return usrMatch;
     }
-    throw new ForbiddenException('Credentials are incorrect.');
+    throw new UnauthorizedException('Credentials are incorrect.');
   }
 
   async findAll() {
@@ -45,7 +47,7 @@ export class UsersService {
     try {
       return await this.userRepository.findOne({ email: userDto.email });
     } catch (err) {
-      throw new ForbiddenException('Credentials are incorrect.' + err);
+      throw new UnauthorizedException('Credentials are incorrect.' + err);
     }
   }
 
@@ -56,4 +58,16 @@ export class UsersService {
   //   async remove(id: number) {
   //     return `This action removes a #${id} user`;
   //   }
+
+  // helper functions
+
+  async makeUserFromDto(dto: UserDto) {
+    try {
+      const hashed_password = await this.authService.pwHash(dto.password);
+      const user = new User(dto.email, hashed_password);
+      return user;
+    } catch (err) {
+      return null;
+    }
+  }
 }

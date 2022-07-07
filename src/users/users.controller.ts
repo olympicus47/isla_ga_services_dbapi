@@ -3,10 +3,12 @@ import {
   Get,
   Post,
   Body,
+  UseGuards,
   Patch,
   Param,
   Delete,
 } from '@nestjs/common';
+import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { UsersService } from './users.service';
 import { UserDto } from './dto/index';
 
@@ -19,6 +21,7 @@ export class UsersController {
     return this.usersService.register(userDto);
   }
 
+  @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@Body() loginUserDto: UserDto) {
     return this.usersService.login(loginUserDto);
