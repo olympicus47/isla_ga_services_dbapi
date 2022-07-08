@@ -19,18 +19,18 @@ export class AuthService {
       // verify in the case we use it with an UserDto which is of the shape {email: string, password: string}
       if (typeof verifiable === 'object') {
         const user = await this.usersService.findOne(verifiable);
-        let pwmatch = false;
+        let pwMatch = false;
         if (user) {
-          pwmatch = await argon.verify(
+          pwMatch = await argon.verify(
             user.hashed_password,
             verifiable.password,
           );
         }
-        return pwmatch;
+        return pwMatch;
       }
     } catch (err) {
       throw new Error(
-        `veify method was passed the wrong type of argument. expected ${String(
+        `verify method was passed the wrong type of argument. expected ${String(
           verifiable.__proto__,
         )} got ${String(verifiable)}` + err,
       );

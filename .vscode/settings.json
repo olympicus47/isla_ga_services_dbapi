@@ -29,5 +29,9 @@
       "database": "inventar_produse_dev",
       "username": "root"
     }
+  ],
+  "cSpell.words": [
+    "mikro",
+    "nestjs"
   ]
 }
