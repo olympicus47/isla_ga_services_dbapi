@@ -7,7 +7,7 @@ export class UserDto {
   @IsNotEmpty()
   readonly password: string;
 
-  constructor(email: string, password: string) {
+  constructor(email: string, password: string, ...args: any[]) {
     this.email = email;
     this.password = password;
   }

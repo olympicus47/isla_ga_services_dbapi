@@ -1,6 +1,11 @@
 import { UsersService } from './../users/users.service';
 import { UserDto } from './../users/dto/user.dto';
-import { Inject, Injectable, forwardRef } from '@nestjs/common';
+import {
+  Inject,
+  Injectable,
+  forwardRef,
+  UnauthorizedException,
+} from '@nestjs/common';
 import * as argon from 'argon2';
 
 @Injectable()
@@ -10,36 +15,26 @@ export class AuthService {
     private readonly usersService: UsersService,
   ) {}
 
-  async verify(verifiable: Verifiable | any) {
-    try {
-      // verify in the case we use it with two strings one hashed and one plain
-      if (verifiable.plain && typeof verifiable.plain === 'string') {
-        return await argon.verify(verifiable.hashed, verifiable.plain);
+  async verify(dto: UserDto) {
+    let pwmatch = false;
+
+    const user = await this.usersService.findOne(dto as UserDto);
+    if (user) {
+      pwmatch = await this.verifyPassword(user.hashed_password, dto.password);
+      if (!pwmatch) {
+        throw new UnauthorizedException('Credentials are incorrect');
       }
-      // verify in the case we use it with an UserDto which is of the shape {email: string, password: string}
-      if (typeof verifiable === 'object') {
-        const user = await this.usersService.findOne(verifiable);
-        let pwMatch = false;
-        if (user) {
-          pwMatch = await argon.verify(
-            user.hashed_password,
-            verifiable.password,
-          );
-        }
-        return pwMatch;
-      }
-    } catch (err) {
-      throw new Error(
-        `verify method was passed the wrong type of argument. expected ${String(
-          verifiable.__proto__,
-        )} got ${String(verifiable)}` + err,
-      );
+      const { hashed_password, isAdmin, ...result } = user;
+      return result;
     }
+    return null;
   }
 
   async pwHash(password: string) {
     return await argon.hash(password);
   }
-}
 
-export type Verifiable = UserDto | { plain: string; hashed: string };
+  async verifyPassword(hashed: string, plain: string) {
+    return await argon.verify(hashed, plain);
+  }
+}
