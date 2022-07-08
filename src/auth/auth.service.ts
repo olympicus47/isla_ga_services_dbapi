@@ -16,12 +16,12 @@ export class AuthService {
   ) {}
 
   async verify(dto: UserDto) {
-    let pwmatch = false;
+    let pwMatch = false;
 
     const user = await this.usersService.findOne(dto as UserDto);
     if (user) {
-      pwmatch = await this.verifyPassword(user.hashed_password, dto.password);
-      if (!pwmatch) {
+      pwMatch = await this.verifyPassword(user.hashed_password, dto.password);
+      if (!pwMatch) {
         throw new UnauthorizedException('Credentials are incorrect');
       }
       const { hashed_password, isAdmin, ...result } = user;
